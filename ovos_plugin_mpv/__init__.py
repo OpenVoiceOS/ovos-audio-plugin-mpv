@@ -18,7 +18,7 @@ class OVOSMPVService(AudioBackend):
         self._playback_time = 0
         self._last_sync = 0
         self.mpv = None
-        self._seconds_to_error = 3
+        self._seconds_to_error = 5
         self._started = threading.Event()
 
     ###################
@@ -31,17 +31,23 @@ class OVOSMPVService(AudioBackend):
 
         # TODO - doesnt seem to be called on bad tracks requested?
         self.mpv.bind_event("error", self.handle_mpv_error)
+        self.bus.on("ovos.mpv.timeout_check", self.check_start_timeout)
+
+    def check_start_timeout(self, message):
+        """if playback doesnt start within the configured timeout, assume MPV error happened"""
+        self._started.wait(self._seconds_to_error)
+        if not self._started.is_set():
+            # assume an error/invalid uri
+            # self._started should have been set by now!
+            LOG.error(f"time out error! track should have started playing by now,"
+                      f" is the uri valid? {self._now_playing}")
+            self.handle_mpv_error("timeout")
 
     def handle_track_end(self, key, val):
         if val is None:
             self._started.clear()
-            self._started.wait(self._seconds_to_error)
-            if not self._started.is_set():
-                # assume an error/invalid uri
-                # self._started should have been set by now!
-                LOG.error(f"time out error! track should have started playing by now,"
-                          f" is the uri valid? {self._now_playing}")
-                self.handle_mpv_error("timeout")
+            # NOTE: a bus event is used otherwise we block the MPV monitor thread with self._started.wait()
+            self.bus.emit(Message("ovos.mpv.timeout_check"))
             return
         if val is False:
             self._started.set()
@@ -187,12 +193,3 @@ MPVAudioPluginConfig = {
         "active": True
     }
 }
-
-if __name__ == "__main__":
-    from ovos_utils.fakebus import FakeBus
-
-    m = OVOSMPVService({}, bus=FakeBus())
-    m.load_track("https://INVALID")
-    m.play()
-    time.sleep(2)
-    m.stop()
