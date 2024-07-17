@@ -46,7 +46,7 @@ class OVOSMPVService(AudioBackend):
     def handle_track_end(self, key, val):
         if val is None:
             self._started.clear()
-            # NOTE: a event is used otherwise we block the MPV thread with self._started.wait()
+            # NOTE: a bus event is used otherwise we block the MPV monitor thread with self._started.wait()
             self.bus.emit(Message("ovos.mpv.timeout_check"))
             return
         if val is False:
@@ -193,12 +193,3 @@ MPVAudioPluginConfig = {
         "active": True
     }
 }
-
-if __name__ == "__main__":
-    from ovos_utils.fakebus import FakeBus
-
-    m = OVOSMPVService({}, bus=FakeBus())
-    m.load_track("https://INVALID")
-    m.play()
-    time.sleep(2)
-    m.stop()
