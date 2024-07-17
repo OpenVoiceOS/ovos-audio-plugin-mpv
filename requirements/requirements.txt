@@ -1,0 +1,2 @@
+ovos-plugin-manager>=0.0.26a29
+python-mpv-jsonipc
