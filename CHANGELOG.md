@@ -2,7 +2,16 @@
 
 ## [Unreleased](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/HEAD)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.0.0a2...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.0.0a3...HEAD)
+
+**Fixed bugs:**
+
+- TypeError: unsupported operand type\(s\) for \*: 'NoneType' and 'int' [\#3](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/issues/3)
+- fix/Nonetype [\#4](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/pull/4) ([JarbasAl](https://github.com/JarbasAl))
+
+## [V0.0.0a3](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/V0.0.0a3) (2024-07-17)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.0.0a2...V0.0.0a3)
 
 **Fixed bugs:**
 
