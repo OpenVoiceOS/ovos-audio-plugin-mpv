@@ -136,7 +136,7 @@ class OVOSMPVService(AudioBackend):
         getting the duration of the audio in milliseconds
         """
         if self.mpv:
-            return self.mpv.duration * 1000  # seconds to ms
+            return (self.mpv.duration or 0) * 1000  # seconds to ms
         return 0
 
     def get_track_position(self):
@@ -144,7 +144,7 @@ class OVOSMPVService(AudioBackend):
         get current position in milliseconds
         """
         if self.mpv:
-            return self.mpv.time_pos * 1000  # seconds to ms
+            return (self.mpv.time_pos or 0) * 1000  # seconds to ms
         return 0
 
     def set_track_position(self, milliseconds):
