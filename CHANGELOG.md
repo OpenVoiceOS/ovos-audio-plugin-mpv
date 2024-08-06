@@ -2,7 +2,19 @@
 
 ## [Unreleased](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/HEAD)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.0.0a3...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.0.0a4...HEAD)
+
+**Fixed bugs:**
+
+- fix/end\_of\_track [\#6](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/pull/6) ([JarbasAl](https://github.com/JarbasAl))
+
+**Closed issues:**
+
+- FileNotFoundError: \[Errno 2\] No such file or directory: 'mpv' [\#5](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/issues/5)
+
+## [V0.0.0a4](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/V0.0.0a4) (2024-07-18)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.0.0a3...V0.0.0a4)
 
 **Fixed bugs:**
 
