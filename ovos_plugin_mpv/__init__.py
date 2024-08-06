@@ -26,7 +26,7 @@ class OVOSMPVService(AudioBackend):
     def init_mpv(self):
         self.mpv = MPV()
         self.mpv.volume = self.normal_volume
-        self.mpv.bind_property_observer("eof-reached", self.handle_track_end)
+        self.mpv.bind_property_observer("eof-reached", self.handle_track_eof_status)
         self.mpv.bind_property_observer("time-pos", self.update_playback_time)
 
         # TODO - doesnt seem to be called on bad tracks requested?
@@ -43,22 +43,23 @@ class OVOSMPVService(AudioBackend):
                       f" is the uri valid? {self._now_playing}")
             self.handle_mpv_error("timeout")
 
-    def handle_track_end(self, key, val):
-        if val is None:
-            self._started.clear()
+    def handle_track_eof_status(self, key, val):
+        LOG.debug(f"MPV EOF event: {key} - {val}")
+        if val is None and not self._started.is_set():
             # NOTE: a bus event is used otherwise we block the MPV monitor thread with self._started.wait()
             self.bus.emit(Message("ovos.mpv.timeout_check"))
             return
+
         if val is False:
             self._started.set()
             LOG.debug('MPV playback start')
             if self._track_start_callback:
                 self._track_start_callback(self.track_info().get('name', "track"))
-        else:
+        elif self._started.is_set():
             LOG.debug('MPV playback ended')
-            self._now_playing = None
             if self._track_start_callback:
                 self._track_start_callback(None)
+            self._started.clear()
 
     def handle_mpv_error(self, *args, **kwargs):
         self.ocp_error()
@@ -100,6 +101,7 @@ class OVOSMPVService(AudioBackend):
         """ Play playlist using mpv. """
         if not self.mpv:
             self.init_mpv()
+        self._started.clear()
         self.mpv.play(self._now_playing)
 
     def stop(self):
