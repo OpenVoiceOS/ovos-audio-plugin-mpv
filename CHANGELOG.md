@@ -1,5 +1,9 @@
 # Changelog
 
+## [V0.0.0](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/V0.0.0) (2024-08-06)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.0.0a5...V0.0.0)
+
 ## [V0.0.0a5](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/V0.0.0a5) (2024-08-06)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.0.0a4...V0.0.0a5)
