@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/HEAD)
+## [V0.0.0a5](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/V0.0.0a5) (2024-08-06)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.0.0a4...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.0.0a4...V0.0.0a5)
 
 **Fixed bugs:**
 
