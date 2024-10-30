@@ -1,45 +1,12 @@
 # Changelog
 
-## [V0.0.0](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/V0.0.0) (2024-08-06)
+## [0.2.1a1](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/0.2.1a1) (2024-10-30)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.0.0a5...V0.0.0)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.1.0...0.2.1a1)
 
-## [V0.0.0a5](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/V0.0.0a5) (2024-08-06)
+**Merged pull requests:**
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.0.0a4...V0.0.0a5)
-
-**Fixed bugs:**
-
-- fix/end\_of\_track [\#6](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/pull/6) ([JarbasAl](https://github.com/JarbasAl))
-
-**Closed issues:**
-
-- FileNotFoundError: \[Errno 2\] No such file or directory: 'mpv' [\#5](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/issues/5)
-
-## [V0.0.0a4](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/V0.0.0a4) (2024-07-18)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.0.0a3...V0.0.0a4)
-
-**Fixed bugs:**
-
-- TypeError: unsupported operand type\(s\) for \*: 'NoneType' and 'int' [\#3](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/issues/3)
-- fix/Nonetype [\#4](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/pull/4) ([JarbasAl](https://github.com/JarbasAl))
-
-## [V0.0.0a3](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/V0.0.0a3) (2024-07-17)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.0.0a2...V0.0.0a3)
-
-**Fixed bugs:**
-
-- fix/error\_event [\#2](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/pull/2) ([JarbasAl](https://github.com/JarbasAl))
-
-## [V0.0.0a2](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/V0.0.0a2) (2024-07-17)
-
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/8723ac21bf37f164251b16b6cd9d9ee71a6e98e7...V0.0.0a2)
-
-**Implemented enhancements:**
-
-- feat/initial\_implementation [\#1](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/pull/1) ([JarbasAl](https://github.com/JarbasAl))
+- fix:fakebus support [\#7](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/pull/7) ([JarbasAl](https://github.com/JarbasAl))
 
 
 
