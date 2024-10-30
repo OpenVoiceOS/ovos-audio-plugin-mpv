@@ -5,6 +5,7 @@ from typing import List
 from ovos_bus_client.message import Message
 from ovos_plugin_manager.templates.audio import AudioBackend
 from ovos_utils.log import LOG
+from ovos_utils.fakebus import FakeBus
 from python_mpv_jsonipc import MPV
 
 
@@ -46,8 +47,11 @@ class OVOSMPVService(AudioBackend):
     def handle_track_eof_status(self, key, val):
         LOG.debug(f"MPV EOF event: {key} - {val}")
         if val is None and not self._started.is_set():
-            # NOTE: a bus event is used otherwise we block the MPV monitor thread with self._started.wait()
-            self.bus.emit(Message("ovos.mpv.timeout_check"))
+            # NOTE: a bus event is used otherwise we block the
+            # MPV monitor thread with self._started.wait()
+            # NOTE2: FakeBus doesnt use real events
+            if not isinstance(self.bus, FakeBus):
+                self.bus.emit(Message("ovos.mpv.timeout_check"))
             return
 
         if val is False:
