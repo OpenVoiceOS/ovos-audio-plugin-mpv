@@ -1,12 +1,12 @@
 # Changelog
 
-## [0.2.1a1](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/0.2.1a1) (2024-10-30)
+## [0.2.2a1](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/0.2.2a1) (2025-12-18)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.1.0...0.2.1a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/0.2.1...0.2.2a1)
 
 **Merged pull requests:**
 
-- fix:fakebus support [\#7](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/pull/7) ([JarbasAl](https://github.com/JarbasAl))
+- Configure Renovate [\#9](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/pull/9) ([renovate[bot]](https://github.com/apps/renovate))
 
 
 
