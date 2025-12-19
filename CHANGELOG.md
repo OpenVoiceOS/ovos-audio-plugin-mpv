@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.2a2](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/0.2.2a2) (2025-12-19)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/0.2.2a1...0.2.2a2)
+
+**Merged pull requests:**
+
+- Update dependency python to 3.14 [\#10](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/pull/10) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.2.2a1](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/0.2.2a1) (2025-12-18)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/0.2.1...0.2.2a1)
