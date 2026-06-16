@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ovos-audio-plugin-mpv"
+dynamic = ["version"]
+description = "mpv plugin for ovos"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "JarbasAi", email = "jarbasai@mailfence.com"}
+]
+keywords = ["ovos", "audio", "plugin"]
+dependencies = [
+    "ovos-plugin-manager>=0.0.26a29",
+    "python-mpv-jsonipc"
+]
+
+[project.urls]
+Homepage = "https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv"
+
+[project.entry-points."mycroft.plugin.audioservice"]
+ovos_mpv = "ovos_plugin_mpv"
+
+[project.entry-points."mycroft.plugin.audioservice.config"]
+"ovos_mpv.config" = "ovos_plugin_mpv:MPVAudioPluginConfig"
+
+[tool.setuptools.dynamic]
+version = {attr = "ovos_plugin_mpv.version.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ovos_plugin_mpv*"]
+
+[tool.setuptools.package-data]
+ovos_plugin_mpv = [
+    "*.json",
+    "locale/**/*",
+]
