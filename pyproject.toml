@@ -17,6 +17,11 @@ dependencies = [
     "python-mpv-jsonipc"
 ]
 
+[project.optional-dependencies]
+test = [
+    "pytest"
+]
+
 [project.urls]
 Homepage = "https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv"
 
