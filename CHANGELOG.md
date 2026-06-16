@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/HEAD)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/0.2.2a2...HEAD)
+
+**Merged pull requests:**
+
+- chore: add missing shared CI workflows [\#19](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/pull/19) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.2.2a2](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/0.2.2a2) (2025-12-19)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/0.2.2a1...0.2.2a2)
