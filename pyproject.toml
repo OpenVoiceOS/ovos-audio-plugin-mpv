@@ -21,9 +21,9 @@ dependencies = [
 test = [
     "pytest",
     # end-to-end harness: drives the real backend through a real OCPMediaPlayer.
-    # [media] (the OCPPlayerHarness) lands in ovoscope 0.20.x; floor-pin so pip
-    # resolves it without --pre once published.
-    "ovoscope[media]>=0.20.0a1",
+    # [media] (the OCPPlayerHarness) ships in ovoscope 0.21.0a1; floor-pin so pip
+    # resolves the prerelease without --pre.
+    "ovoscope[media]>=0.21.0a1",
 ]
 
 [project.urls]
