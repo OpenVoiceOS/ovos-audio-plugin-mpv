@@ -3,17 +3,17 @@ requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ovos-audio-plugin-mpv"
+name = "ovos-media-plugin-mpv"
 dynamic = ["version"]
-description = "mpv plugin for ovos"
+description = "mpv audio + video playback plugin for ovos-media (and the legacy ovos-audio service)"
 readme = "README.md"
 license = {text = "Apache-2.0"}
 authors = [
     {name = "JarbasAi", email = "jarbasai@mailfence.com"}
 ]
-keywords = ["ovos", "audio", "plugin"]
+keywords = ["ovos", "audio", "video", "OCP", "plugin", "mpv"]
 dependencies = [
-    "ovos-plugin-manager>=0.0.26a29",
+    "ovos-plugin-manager>=2.1.0,<3.0.0",
     "python-mpv-jsonipc"
 ]
 
@@ -23,8 +23,16 @@ test = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv"
+Homepage = "https://github.com/OpenVoiceOS/ovos-media-plugin-mpv"
 
+# new ovos-media backends
+[project.entry-points."opm.media.audio"]
+ovos-media-audio-plugin-mpv = "ovos_plugin_mpv:MPVOCPAudioService"
+
+[project.entry-points."opm.media.video"]
+ovos-media-video-plugin-mpv = "ovos_plugin_mpv:MPVOCPVideoService"
+
+# legacy ovos-audio service backend (so the plugin works on both stacks)
 [project.entry-points."mycroft.plugin.audioservice"]
 ovos_mpv = "ovos_plugin_mpv"
 

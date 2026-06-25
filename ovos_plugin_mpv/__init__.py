@@ -4,16 +4,37 @@ from typing import List
 
 from ovos_bus_client.message import Message
 from ovos_plugin_manager.templates.audio import AudioBackend
+from ovos_plugin_manager.templates.media import (
+    MediaBackend, AudioPlayerBackend, VideoPlayerBackend)
 from ovos_utils.log import LOG
 from ovos_utils.fakebus import FakeBus
 from python_mpv_jsonipc import MPV
 
 
-class OVOSMPVService(AudioBackend):
-    def __init__(self, config, bus=None, name='ovos_mpv'):
-        super(OVOSMPVService, self).__init__(config, bus, name)
-        self.config = config
-        self.bus = bus
+class MPVBaseService(MediaBackend):
+    """Shared mpv engine.
+
+    Holds all the playback logic (lazy ``MPV`` instance, event observers,
+    play/stop/pause/seek/volume, position tracking). It is shared by both
+    backend flavours so they drive one engine with no duplicated logic:
+
+    * new ``ovos-media`` — :class:`MPVOCPAudioService` / :class:`MPVOCPVideoService`
+      (``AudioPlayerBackend`` / ``VideoPlayerBackend``)
+    * legacy ``ovos-audio`` — :class:`OVOSMPVService` (``AudioBackend``)
+    """
+
+    def __init__(self, config, bus=None):
+        super().__init__(config, bus)
+        self._init_mpv_state()
+
+    def _init_mpv_state(self):
+        """Set up mpv-specific instance state.
+
+        Factored out of ``__init__`` so the legacy ``AudioBackend`` adapter
+        (whose constructor takes a ``name``) can reuse it after its own base
+        ``__init__`` has run. ``self.config``/``self.bus`` are already set by the
+        framework base constructor.
+        """
         self.normal_volume = self.config.get('initial_volume', 100)
         self.low_volume = self.config.get('low_volume', 50)
         self._playback_time = 0
@@ -81,7 +102,7 @@ class OVOSMPVService(AudioBackend):
             self._last_sync = time.time()
             try:
                 self.ocp_sync_playback(self._playback_time)
-            except:  # too old OPM version
+            except:  # too old OPM version / new MediaBackend without the helper
                 self.bus.emit(Message("ovos.common_play.playback_time",
                                       {"position": self._playback_time,
                                        "length": self.get_track_length()}))
@@ -182,6 +203,34 @@ class OVOSMPVService(AudioBackend):
         """
         if self.mpv:
             self.mpv.command("seek", seconds * -1)
+
+
+# --- new ovos-media backends (opm.media.audio / opm.media.video) ------------
+class MPVOCPAudioService(AudioPlayerBackend, MPVBaseService):
+    """mpv audio backend for the new ovos-media service."""
+
+    def __init__(self, config, bus=None):
+        super().__init__(config, bus)
+
+
+class MPVOCPVideoService(VideoPlayerBackend, MPVBaseService):
+    """mpv video backend for the new ovos-media service."""
+
+    def __init__(self, config, bus=None):
+        super().__init__(config, bus)
+
+
+# --- legacy ovos-audio service backend (mycroft.plugin.audioservice) --------
+class OVOSMPVService(MPVBaseService, AudioBackend):
+    """mpv backend for the legacy ovos-audio service.
+
+    ``MPVBaseService`` is listed first so its concrete playback methods satisfy
+    ``AudioBackend``'s abstract methods (MRO order matters).
+    """
+
+    def __init__(self, config, bus=None, name='ovos_mpv'):
+        AudioBackend.__init__(self, config, bus, name)
+        self._init_mpv_state()
 
 
 def load_service(base_config, bus):
