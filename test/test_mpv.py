@@ -1,12 +1,58 @@
+import os
 import unittest
 
 from ovos_utils.fakebus import FakeBus
+from ovos_plugin_manager.templates.audio import AudioBackend
+from ovos_plugin_manager.templates.media import (
+    AudioPlayerBackend, VideoPlayerBackend)
 
 from ovos_plugin_mpv import (
     OVOSMPVService,
+    MPVBaseService,
+    MPVOCPAudioService,
+    MPVOCPVideoService,
     MPVAudioPluginConfig,
     load_service,
 )
+
+
+class TestNewBackends(unittest.TestCase):
+    """Dual-target: new ovos-media backends share the mpv engine."""
+
+    def test_audio_backend_is_audioplayerbackend(self):
+        svc = MPVOCPAudioService({}, bus=FakeBus())
+        self.assertIsInstance(svc, AudioPlayerBackend)
+        self.assertIsInstance(svc, MPVBaseService)
+        # the shared engine state was initialised through the MRO
+        self.assertIsNone(svc.mpv)
+        self.assertEqual(svc.normal_volume, 100)
+
+    def test_video_backend_is_videoplayerbackend(self):
+        svc = MPVOCPVideoService({"initial_volume": 70}, bus=FakeBus())
+        self.assertIsInstance(svc, VideoPlayerBackend)
+        self.assertIsInstance(svc, MPVBaseService)
+        self.assertEqual(svc.normal_volume, 70)
+
+    def test_legacy_is_audiobackend(self):
+        svc = OVOSMPVService({}, bus=FakeBus(), name='ovos_mpv')
+        self.assertIsInstance(svc, AudioBackend)
+        self.assertIsInstance(svc, MPVBaseService)
+
+    def test_supported_uris_match(self):
+        for cls in (MPVOCPAudioService, MPVOCPVideoService, OVOSMPVService):
+            self.assertEqual(cls({}, bus=FakeBus()).supported_uris(),
+                             ["file", "http", "https"])
+
+
+class TestEntryPoints(unittest.TestCase):
+    def test_pyproject_declares_new_and_legacy_groups(self):
+        here = os.path.dirname(os.path.dirname(__file__))
+        with open(os.path.join(here, "pyproject.toml")) as f:
+            src = f.read()
+        self.assertIn("opm.media.audio", src)
+        self.assertIn("opm.media.video", src)
+        self.assertIn("mycroft.plugin.audioservice", src)
+        self.assertIn("MPVOCPAudioService", src)
 
 
 class TestMPVAudioPluginConfig(unittest.TestCase):
