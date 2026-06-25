@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/tree/HEAD)
+## [1.0.0a2](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/tree/1.0.0a2) (2026-06-25)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/compare/0.2.2a2...HEAD)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/compare/0.2.2a2...1.0.0a2)
 
 **Breaking changes:**
 
@@ -10,6 +10,7 @@
 
 **Merged pull requests:**
 
+- ci: modernize workflows to OpenVoiceOS/gh-automations@dev \(enable PyPI publish\) [\#22](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/pull/22) ([JarbasAl](https://github.com/JarbasAl))
 - chore: add missing shared CI workflows [\#19](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/pull/19) ([JarbasAl](https://github.com/JarbasAl))
 
 ## [0.2.2a2](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/tree/0.2.2a2) (2025-12-19)
