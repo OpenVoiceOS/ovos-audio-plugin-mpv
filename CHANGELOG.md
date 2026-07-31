@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.0a3](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/tree/1.0.0a3) (2026-07-31)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/compare/1.0.0a2...1.0.0a3)
+
+**Merged pull requests:**
+
+- docs: rewrite README in Simplified Technical English [\#24](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/pull/24) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [1.0.0a2](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/tree/1.0.0a2) (2026-06-25)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/compare/0.2.2a2...1.0.0a2)
