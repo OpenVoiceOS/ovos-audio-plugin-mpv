@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1a1](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/tree/1.0.1a1) (2026-08-13)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/compare/1.0.0a3...1.0.1a1)
+
+**Merged pull requests:**
+
+- fix: remove stale dependabot pip config pointing at deleted /requirements dir [\#26](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/pull/26) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [1.0.0a3](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/tree/1.0.0a3) (2026-07-31)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/compare/1.0.0a2...1.0.0a3)
