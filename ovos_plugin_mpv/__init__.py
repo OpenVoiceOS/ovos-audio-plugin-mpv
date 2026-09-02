@@ -85,6 +85,12 @@ class MPVBaseService(MediaBackend):
             if self._track_start_callback:
                 self._track_start_callback(None)
             self._started.clear()
+            # natural end-of-media (mpv reached eof on its own, no stop()
+            # requested by us) - ocp_stop() is idempotent (no-ops once
+            # self._now_playing is None), so it is safe to call here even
+            # when stop() already triggered it; this is the only path that
+            # reports a *natural* end-of-media upward
+            self.ocp_stop()
 
     def handle_mpv_error(self, *args, **kwargs):
         self.ocp_error()
@@ -134,6 +140,8 @@ class MPVBaseService(MediaBackend):
         if self.mpv:
             self.mpv.terminate()
             self.mpv = None
+            return True
+        return False
 
     def pause(self):
         """ Pause mpv playback. """
