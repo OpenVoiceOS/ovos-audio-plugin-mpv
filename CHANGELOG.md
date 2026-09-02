@@ -1,12 +1,57 @@
 # Changelog
 
-## [0.2.1a1](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/tree/0.2.1a1) (2024-10-30)
+## [1.0.2a1](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/tree/1.0.2a1) (2026-09-02)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/compare/V0.1.0...0.2.1a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/compare/1.0.1a1...1.0.2a1)
 
 **Merged pull requests:**
 
-- fix:fakebus support [\#7](https://github.com/OpenVoiceOS/ovos-audio-plugin-mpv/pull/7) ([JarbasAl](https://github.com/JarbasAl))
+- fix: report natural track end and honour the stop contract [\#28](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/pull/28) ([JarbasAl](https://github.com/JarbasAl))
+
+## [1.0.1a1](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/tree/1.0.1a1) (2026-08-13)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/compare/1.0.0a3...1.0.1a1)
+
+**Merged pull requests:**
+
+- fix: remove stale dependabot pip config pointing at deleted /requirements dir [\#26](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/pull/26) ([JarbasAl](https://github.com/JarbasAl))
+
+## [1.0.0a3](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/tree/1.0.0a3) (2026-07-31)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/compare/1.0.0a2...1.0.0a3)
+
+**Merged pull requests:**
+
+- docs: rewrite README in Simplified Technical English [\#24](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/pull/24) ([JarbasAl](https://github.com/JarbasAl))
+
+## [1.0.0a2](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/tree/1.0.0a2) (2026-06-25)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/compare/0.2.2a2...1.0.0a2)
+
+**Breaking changes:**
+
+- feat!: dual-target mpv backend + rename to ovos-media-plugin-mpv [\#21](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/pull/21) ([JarbasAl](https://github.com/JarbasAl))
+
+**Merged pull requests:**
+
+- ci: modernize workflows to OpenVoiceOS/gh-automations@dev \(enable PyPI publish\) [\#22](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/pull/22) ([JarbasAl](https://github.com/JarbasAl))
+- chore: add missing shared CI workflows [\#19](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/pull/19) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.2.2a2](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/tree/0.2.2a2) (2025-12-19)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/compare/0.2.2a1...0.2.2a2)
+
+**Merged pull requests:**
+
+- Update dependency python to 3.14 [\#10](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/pull/10) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [0.2.2a1](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/tree/0.2.2a1) (2025-12-18)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/compare/0.2.1...0.2.2a1)
+
+**Merged pull requests:**
+
+- Configure Renovate [\#9](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/pull/9) ([renovate[bot]](https://github.com/apps/renovate))
 
 
 
