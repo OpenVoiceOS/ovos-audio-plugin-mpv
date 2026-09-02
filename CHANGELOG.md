@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2a1](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/tree/1.0.2a1) (2026-09-02)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/compare/1.0.1a1...1.0.2a1)
+
+**Merged pull requests:**
+
+- fix: report natural track end and honour the stop contract [\#28](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/pull/28) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [1.0.1a1](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/tree/1.0.1a1) (2026-08-13)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-media-plugin-mpv/compare/1.0.0a3...1.0.1a1)
