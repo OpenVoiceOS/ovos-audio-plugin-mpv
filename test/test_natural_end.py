@@ -1,15 +1,15 @@
-"""Regression test: a track that ends naturally (mpv reports eof-reached on
-its own, no stop() ever called) must report MediaState.END_OF_MEDIA /
-PlayerState.STOPPED on the bus, exactly like an explicit stop does.
+"""Regression test: a track that ends naturally (mpv's end-file event fires
+with reason "eof", no stop() ever called) must report
+PlaybackEvent.END_OF_MEDIA - the plugin reports the physical event, it
+never emits bus state itself.
 
-Also covers the bool contract on stop(): it must return True/False instead
-of None.
+Also covers the bool contract on stop(): it must return True/False.
 """
 import unittest
 from unittest.mock import MagicMock
 
 from ovos_utils.fakebus import FakeBus
-from ovos_utils.ocp import MediaState, PlayerState
+from ovos_plugin_manager.templates.media import PlaybackEvent
 
 from ovos_plugin_mpv import MPVOCPAudioService
 
@@ -18,32 +18,27 @@ class TestNaturalEndOfMedia(unittest.TestCase):
 
     def _service(self):
         bus = FakeBus()
-        states = []
-        player_states = []
-        bus.on("ovos.common_play.media.state",
-               lambda msg: states.append(msg.data.get("state")))
-        bus.on("ovos.common_play.player.state",
-               lambda msg: player_states.append(msg.data.get("state")))
+        events = []
         service = MPVOCPAudioService({}, bus=bus)
+        service.bind_event_reporter(lambda event, **data: events.append((event, data)))
         service.mpv = MagicMock()
-        service._now_playing = "file:///tmp/track.wav"
+        service._loaded_uri = "file:///tmp/track.wav"
         service._started.set()
-        return service, states, player_states
+        return service, events
 
-    def test_natural_track_end_emits_end_of_media(self):
-        service, states, player_states = self._service()
+    def test_natural_track_end_reports_end_of_media(self):
+        service, events = self._service()
 
-        # simulate mpv's eof-reached property observer firing True after
-        # playback started, with no stop() ever called by us
-        service.handle_track_eof_status("eof-reached", True)
+        # mpv's end-file event fires with reason "eof" when the track
+        # finishes playing on its own, with no stop() ever called by us
+        service._handle_end_file({"reason": "eof"})
 
-        self.assertIn(MediaState.END_OF_MEDIA, states,
-                       f"natural end-of-media never emitted END_OF_MEDIA; saw: {states}")
-        self.assertIn(PlayerState.STOPPED, player_states,
-                       f"natural end-of-media never emitted PlayerState.STOPPED; saw: {player_states}")
+        self.assertIn((PlaybackEvent.END_OF_MEDIA, {"uri": "file:///tmp/track.wav"}),
+                       events,
+                       f"natural end-of-media never reported END_OF_MEDIA; saw: {events}")
 
     def test_stop_returns_bool(self):
-        service, _, _ = self._service()
+        service, _ = self._service()
         self.assertIs(service.stop(), True)
         self.assertIs(service.stop(), False)
 

@@ -13,7 +13,9 @@ authors = [
 ]
 keywords = ["ovos", "audio", "video", "OCP", "plugin", "mpv"]
 dependencies = [
-    "ovos-plugin-manager>=2.1.0,<3.0.0",
+    # TODO: bump to ">=3.0.0a1,<4.0.0" once MediaBackend v2 (opm#442) reaches a
+    # stable release
+    "ovos-plugin-manager>=2.11.6a1,<4.0.0",
     "python-mpv-jsonipc"
 ]
 

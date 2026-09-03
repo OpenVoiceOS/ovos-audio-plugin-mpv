@@ -1,89 +1,66 @@
-"""End-to-end tests: drive the real mpv OCP backend through a real
-``OCPMediaPlayer`` on a FakeBus via ovoscope's media harness.
+"""Full verb-cycle regression test for the v2 contract: driving
+``MPVOCPAudioService`` through load/play/pause/resume/stop must never emit a
+single bus message - all playback state flows through ``report()`` to
+whatever reporter the daemon bound, never through ``self.bus``.
 
-The mpv *engine* (libmpv via ``python_mpv_jsonipc.MPV``) is mocked so no real
-player/binary is needed, but everything else is real: the OCP player routes the
-play/pause/stop/seek requests to ``MPVOCPAudioService`` exactly as ovos-media
-would at runtime.
-
-``OCPPlayerHarness`` dispatches bus messages on a background worker thread;
-``OCPMediaPlayer.play()`` sets ``PlayerState.PLAYING`` only once its own
-(async) dispatch of the play request settles, *after* the harness's fixed
-``time.sleep(0.05)``. On a loaded runner that can outlast the sleep, so a
-follow-up ``pause()`` (which sets ``PlayerState.PAUSED`` immediately) can
-race - and lose to - that still-in-flight ``PLAYING`` assignment, clobbering
-the pause a moment later (observed intermittently in CI:
-"Expected PlayerState.PAUSED, got PlayerState.PLAYING", not reproducible
-locally). Poll for the expected state (bounded) between steps instead of
-trusting the harness's fixed sleep to close that race.
-
-Requires ``ovoscope[media]`` (pulls ovos-media).
+``ovoscope[media]``'s ``OCPPlayerHarness`` drives a real ``OCPMediaPlayer``,
+which has not been ported to the MediaBackend v2 contract yet, so it cannot
+be used here without producing false failures unrelated to this plugin; this
+test exercises the plugin directly instead. The mpv engine itself (libmpv via
+``python_mpv_jsonipc.MPV``) is mocked - no real player/binary is required or
+available in this environment.
 """
-import time
 import unittest
 from unittest.mock import MagicMock, patch
 
-try:
-    from ovoscope import OCPPlayerHarness
-    from ovos_utils.ocp import MediaEntry, PlaybackType, PlayerState
-    HAVE_HARNESS = True
-except Exception:
-    HAVE_HARNESS = False
-
 import ovos_plugin_mpv
+from ovos_plugin_manager.templates.media import PlaybackEvent
+from ovos_utils.fakebus import FakeBus
+
 from ovos_plugin_mpv import MPVOCPAudioService
 
 URI = "http://example.com/song.mp3"
 
 
-def _factory(bus):
-    """Build the real mpv audio backend for injection into the OCP player."""
-    return MPVOCPAudioService({}, bus)
+class TestFullVerbCycleEmitsNoBusState(unittest.TestCase):
+    def test_load_play_pause_resume_stop_never_touches_the_bus(self):
+        bus = FakeBus()
+        emitted = []
+        bus.emit = lambda message: emitted.append(message)
 
-
-def _wait_for_state(h, state: PlayerState, timeout: float = 5.0) -> None:
-    """Poll for *state*, bounded by *timeout*.
-
-    Closes the race between OCPMediaPlayer's own (async) trailing
-    ``set_player_state`` calls and ours - see module docstring.
-    """
-    deadline = time.time() + timeout
-    while time.time() < deadline and h.player.state != state:
-        time.sleep(0.01)
-
-
-@unittest.skipUnless(HAVE_HARNESS, "ovoscope[media] not installed")
-class TestMPVEndToEnd(unittest.TestCase):
-    def test_play_pause_resume_stop_through_ocp(self):
+        events = []
         with patch.object(ovos_plugin_mpv, "MPV", MagicMock()):
-            with OCPPlayerHarness(backend_factory=_factory) as h:
-                entry = MediaEntry(uri=URI, playback=PlaybackType.AUDIO)
+            svc = MPVOCPAudioService({}, bus=bus)
+            svc.bind_event_reporter(lambda event, **data: events.append((event, data)))
 
-                h.play(entry)
-                _wait_for_state(h, PlayerState.PLAYING)
-                h.assert_player_state(PlayerState.PLAYING)
-                h.assert_now_playing_uri(URI)
-                # the real backend actually started its (mocked) mpv engine
-                self.assertIsNotNone(h.backend.mpv)
+            self.assertTrue(svc.load_track(URI, {"title": "song"}))
+            svc.play()
+            svc._handle_eof_reached("eof-reached", False)  # mpv: playback started
 
-                h.pause()
-                _wait_for_state(h, PlayerState.PAUSED)
-                h.assert_player_state(PlayerState.PAUSED)
+            svc.pause()
+            svc._handle_pause_property("pause", True)  # mpv: paused
 
-                h.resume()
-                _wait_for_state(h, PlayerState.PLAYING)
-                h.assert_player_state(PlayerState.PLAYING)
+            svc.resume()
+            svc._handle_pause_property("pause", False)  # mpv: resumed
 
-                h.stop()
-                _wait_for_state(h, PlayerState.STOPPED)
-                h.assert_player_state(PlayerState.STOPPED)
+            svc.stop()
+            svc._handle_end_file({"reason": "stop"})  # mpv: end-file(stop)
+
+        self.assertEqual(emitted, [],
+                         f"backend must never emit on self.bus, saw: {emitted}")
+        self.assertEqual([e for e, _ in events],
+                         [PlaybackEvent.TRACK_START,
+                          PlaybackEvent.PAUSED,
+                          PlaybackEvent.RESUMED,
+                          PlaybackEvent.STOPPED])
+        for _, data in events:
+            self.assertEqual(data.get("uri"), URI)
 
     def test_backend_is_the_real_mpv_plugin(self):
         with patch.object(ovos_plugin_mpv, "MPV", MagicMock()):
-            with OCPPlayerHarness(backend_factory=_factory) as h:
-                self.assertIsInstance(h.backend, MPVOCPAudioService)
-                self.assertEqual(h.backend.supported_uris(),
-                                 ["file", "http", "https"])
+            svc = MPVOCPAudioService({}, bus=FakeBus())
+            self.assertIsInstance(svc, MPVOCPAudioService)
+            self.assertEqual(svc.supported_uris(), ["file", "http", "https"])
 
 
 if __name__ == "__main__":

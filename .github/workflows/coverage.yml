@@ -14,4 +14,7 @@ jobs:
       coverage_source: 'ovos_plugin_mpv'
       test_path: 'test/'
       install_extras: '.[test]'
+      # TEMPORARY until ovos-plugin-manager 3.0.0a1 releases: pull the
+      # media-backend-v2 template ahead of the wheel's v1-floored dependency.
+      pre_install_pip: 'git+https://github.com/OpenVoiceOS/ovos-plugin-manager@feat/media-backend-v2'
       min_coverage: 0

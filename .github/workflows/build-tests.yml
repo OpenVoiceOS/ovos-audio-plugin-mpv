@@ -11,5 +11,8 @@ jobs:
     secrets: inherit
     with:
       python_versions: '["3.10", "3.11", "3.12", "3.13", "3.14"]'
+      # TODO: drop this override once MediaBackend v2 (opm#442) is on PyPI -
+      # ovos-plugin-manager's floor pin in pyproject.toml will resolve it then
       install_extras: 'test'
+      pre_install_pip: 'git+https://github.com/OpenVoiceOS/ovos-plugin-manager@feat/media-backend-v2'
       test_path: 'test'
